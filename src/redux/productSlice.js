@@ -39,7 +39,6 @@ export const productSlice = createSlice({
       }
     },
     editQandP:(state,action)=>{
-      console.log(action.payload)
         const index= state.products.findIndex(product=>product.id === action.payload.id)
         if(index !== -1){
           state.products[index] = {
