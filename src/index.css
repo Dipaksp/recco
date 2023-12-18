@@ -15,7 +15,15 @@
       width: 70px;
       height: 50px;
     }
+   
   }
+  @media screen and (max-width: 650px) {
+  .mrg{
+    height: 108px;
+    align-self:center;
+    place-content: center;
+  }
+}
   @media screen and (max-width: 260px) {
     .nvbar{
       display: flex;
