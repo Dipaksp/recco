@@ -19,7 +19,7 @@
   }
   @media screen and (max-width: 650px) {
   .mrg{
-    height: 108px;
+    margin-top: 20px;
     align-self:center;
     place-content: center;
   }
