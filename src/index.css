@@ -16,3 +16,13 @@
       height: 50px;
     }
   }
+  @media screen and (max-width: 260px) {
+    .nvbar{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 5px;
+      padding: 5px;
+    }
+  }  
