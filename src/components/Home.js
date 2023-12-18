@@ -404,7 +404,7 @@ function Home() {
                        <p className="text-sm p-0 m-0"> x6+1LB</p>
                        
                       </div>
-                      <div className="w-full flex flex-col sm:flex-row mb-4 gap-4 items-center align-middle">Total : <p>$ {editQuantity*editPrice}</p></div>
+                      <div className="w-full flex flex-col sm:flex-row mb-4 gap-4 items-center align-middle">Total : <p>$ {(editQuantity*editPrice).toFixed(2)}</p></div>
                     </div>
                   </div>
                 </div>
