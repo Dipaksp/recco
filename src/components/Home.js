@@ -48,7 +48,12 @@ function Home() {
       clearEverything();
       return;
     }
-    if (editQuantity === editProductId.Quantity) {
+    if(editPrice === editProductId.realPrice && editQuantity === editProductId.Quantity) {
+      clearEverything()
+      alert("Nothing Updated")
+      return
+    } 
+    if (editQuantity === editProductId.Quantity && editPrice !==editProductId.realPrice ) {
       let prc = editPrice + "/6+ 1LB";
   
       dispatch(
@@ -64,7 +69,7 @@ function Home() {
       clearEverything();
       return;
     }
-    if (editPrice === editProductId.realPrice) {
+    if (editPrice === editProductId.realPrice && editQuantity !== editProductId.Quantity) {
       dispatch(
         editQandP({
           id: editProductId.id,
