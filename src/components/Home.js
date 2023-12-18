@@ -15,7 +15,6 @@ import { VscCheck, VscChromeClose } from "react-icons/vsc";
 import { useDispatch } from "react-redux";
 import { approveStatus, editProduct, editQandP } from "../redux/productSlice";
 
-
 function Home() {
   const [diva, setDiv] = useState(0);
   const products = useSelector((state) => state.product.products);
@@ -26,7 +25,10 @@ function Home() {
   const dispatch = useDispatch();
 
   const handleEditClick = (id) => {
-    if (id.status==="Approved") return
+    if (id.status === "Approved") {
+      alert("item already approved")
+      return;
+    }
     setEditProductId(id);
     setIsPopupOpen(true);
     setEditQuantity(id.Quantity);
@@ -41,14 +43,14 @@ function Home() {
   };
   const handleEditSubmit = (e) => {
     e.preventDefault();
-    console.log(editProductId, editQuantity);
+  
     if (editQuantity <= 0 || editPrice <= 0) {
       clearEverything();
       return;
     }
     if (editQuantity === editProductId.Quantity) {
       let prc = editPrice + "/6+ 1LB";
-      console.log(prc);
+  
       dispatch(
         editQandP({
           id: editProductId.id,
@@ -59,7 +61,6 @@ function Home() {
           },
         })
       );
-      console.log("editPrice}");
       clearEverything();
       return;
     }
@@ -139,8 +140,8 @@ function Home() {
     },
   ];
   const handleApprove = (id) => {
-    let today=Date().slice(0, 15)
-    if(today>data[0].shipmentDate) return
+    let today = Date().slice(0, 15);
+    if (today > data[0].shipmentDate) return;
     dispatch(
       approveStatus({
         id: id,
@@ -222,9 +223,10 @@ function Home() {
               <IoPrintOutline size={32} />
             </div>
           </div>
-          <div className="relative align-middle   w-0h-0">
+          <div className="relative align-middle w-0 h-0">
             {diva > 0 && (
-              <div class="fixed w-auto text-center  align-middle top-60 md:right-72 bg-gray-200 p-4 border border-black rounded-lg">
+              <div className="fixed inset-0 bg-gray-500 bg-opacity-50  flex justify-center items-center">     
+                <div class="w-auto text-center  align-middle top-60 md:right-72 bg-gray-200 p-4 border border-black rounded-lg">
                 <div class="text-right  bg-gray-200 ">
                   <button onClick={closeing} class=" px-3  py-1 rounded">
                     X
@@ -264,82 +266,90 @@ function Home() {
                   </button>
                 </div>
               </div>
+              </div>
             )}
           </div>
           <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-300 md:table-auto">
-            <thead>
-              <tr className="w-full h-auto border-gray-300 border-t  border-b rounded-lg py-4 px-2 mx-2">
-                <th className="text-center"><span className="invisible">Image</span></th>
-                <th className="text-center">Product Name</th>
-                <th className="text-center">Brand</th>
-                <th className="text-center">Price</th>
-                <th className="text-center">Quantity</th>
-                <th className="text-center">Total</th>
-                <th className="text-center">Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {products &&
-                products.map((item) => (
-                  <tr
-                    key={item.id}
-                    className="h-auto align-middle  border-gray-300 border-b"
-                  >
-                    <td className="text-center flex justify-center items-center">
-                      <div>
-                      <img
-                        className="sm:h-20 sm:w-20 max-w-full h-auto"
-                        src={chicken}
-                        alt="Chicken"
-                      />
-                      </div>
-                    </td>
-                    <td className="text-center">{item.productName}</td>
-                    <td className="text-center">{item.Brand}</td>
-                    <td className="text-center">${item.price}</td>
-                    <td className="text-center">{item.Quantity}</td>
-                    <td className="text-center">
-                      ${item.Quantity * item.realPrice}
-                    </td>
-                    <td className="text-center align-middle flex items-center justify-evenly">
-                      {item.status && (
-                        <p
-                          className="rounded-lg p-2"
-                          style={getStatusStyle(item.status)}
-                        >
-                          {item.status}
-                        </p>
-                      )}
-                      <VscCheck
-                        onClick={() => handleApprove(item.id)}
-                        style={
-                          item.status !== "Missing" &&
-                          item.status !== "Urgent Missing"
-                            ? getStatusStyleIcon(item.status)
-                            : {}
-                        }
-                        size={20}
-                      />{" "}
-                      <VscChromeClose
-                        size={20}
-                        style={
-                          item.status === "Missing" ||
-                          item.status === "Urgent Missing"
-                            ? getStatusStyleIcon(item.status)
-                            : {}
-                        }
-                        onClick={() =>item.status!=="Approved"? setDiv(item.id):setDiv(0)}
-                      />{" "}
-                      <button onClick={() => handleEditClick(item)}>
-                        {" "}
-                        Edit{" "}
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-            </tbody>
-          </table>
+            <table className="min-w-full divide-y divide-gray-300 md:table-auto">
+              <thead>
+                <tr className="w-full h-auto border-gray-300 border-t  border-b rounded-lg py-4 px-2 mx-2">
+                  <th className="text-center">
+                    <span className="invisible">Image</span>
+                  </th>
+                  <th className="text-center">Product Name</th>
+                  <th className="text-center">Brand</th>
+                  <th className="text-center">Price</th>
+                  <th className="text-center">Quantity</th>
+                  <th className="text-center">Total</th>
+                  <th className="text-center">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {products &&
+                  products.map((item) => (
+                    <tr
+                      key={item.id}
+                      className="h-auto align-middle  border-gray-300 border-b"
+                    >
+                      <td className="text-center flex justify-center items-center">
+                        <div>
+                          <img
+                            className="sm:h-20 sm:w-20 max-w-full h-auto"
+                            src={chicken}
+                            alt="Chicken"
+                          />
+                        </div>
+                      </td>
+                      <td className="text-center">{item.productName}</td>
+                      <td className="text-center">{item.Brand}</td>
+                      <td className="text-center">${item.price}</td>
+                      <td className="text-center">{item.Quantity}</td>
+                      <td className="text-center">
+                        ${item.Quantity * item.realPrice}
+                      </td>
+                      <td className=" place-content-end sm:flex items-end justify-end">
+                        {item.status && (
+                          <p
+                            className="rounded-lg p-1 text-start"
+                            style={getStatusStyle(item.status)}
+                          >
+                            {item.status}
+                          </p>
+                        )}
+                        <VscCheck
+                          onClick={() => handleApprove(item.id)}
+                          style={
+                            item.status !== "Missing" &&
+                            item.status !== "Urgent Missing"
+                              ? getStatusStyleIcon(item.status)
+                              : {}
+                          }
+                          size={20}
+                        />{" "}
+                        <VscChromeClose
+                          size={20}
+                          style={
+                            item.status === "Missing" ||
+                            item.status === "Urgent Missing"
+                              ? getStatusStyleIcon(item.status)
+                              : {}
+                          }
+                          onClick={() =>
+                            item.status !== "Approved"
+                              ? setDiv(item.id)
+                              : alert("Item is approved you cant change it's status")
+                          }
+                        />{" "}
+                        <div className="text-start"><button  onClick={() => handleEditClick(item)}>
+                          {" "}
+                          Edit{" "}
+                        </button></div>
+                        
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
           </div>
           {isPopupOpen && (
             <div className="fixed inset-0 bg-gray-500 bg-opacity-50  flex justify-center items-center">
@@ -347,7 +357,13 @@ function Home() {
                 <p className="font-semibold text-start">
                   Chicken Breast Fillets Boneless Marinated 6 Owns Raw,...
                 </p>
-                <div className="text-start"> <span className="text-gray-400 font-sm"> American Ronald </span></div>
+                <div className="text-start">
+                  {" "}
+                  <span className="text-gray-400 font-sm">
+                    {" "}
+                    American Ronald{" "}
+                  </span>
+                </div>
                 <div className=" text-lg font-bold p-2 rounded-t-lg">
                   <VscChromeClose
                     className="absolute top-0 right-0 m-2 cursor-pointer"
@@ -375,7 +391,7 @@ function Home() {
                           value={editPrice}
                           onChange={(e) => setEditPrice(e.target.value)}
                         />
-                       <p className="text-sm p-0 m-0">/6+1LB</p> 
+                        <p className="text-sm p-0 m-0">/6+1LB</p>
                       </div>
                       <div className="w-full flex flex-col sm:flex-row mb-4 gap-4 items-center align-middle">
                         <label
@@ -394,21 +410,34 @@ function Home() {
                           className="mt-1 w-full  border-black border-[1px] rounded-md shadow-sm focus:ring-green-500 focus:border-green-500"
                           type="number"
                           value={editQuantity}
-                          onChange={(e) => setEditQuantity(Number(e.target.value) + 1)}
-                        /> 
-                         <FaMinusCircle
-                          onClick={() => setEditQuantity(editQuantity!==0 ? editQuantity - 1:editQuantity)}
+                          onChange={(e) =>
+                            setEditQuantity(Number(e.target.value))
+                          }
+                        />
+                        <FaMinusCircle
+                          onClick={() =>
+                            setEditQuantity(
+                              editQuantity !== 0
+                                ? editQuantity - 1
+                                : editQuantity
+                            )
+                          }
                           size={28}
                           color="green"
                         />
-                       <p className="text-sm p-0 m-0"> x6+1LB</p>
-                       
+                        <p className="text-sm p-0 m-0"> x6+1LB</p>
                       </div>
-                      <div className="w-full flex flex-col sm:flex-row mb-4 gap-4 items-center align-middle">Total : <p>$ {(editQuantity*editPrice).toFixed(2)}</p></div>
+                      <div className="w-full flex flex-col sm:flex-row mb-4 gap-4 items-center align-middle">
+                        Total : <p>$ {(editQuantity * editPrice).toFixed(2)}</p>
+                      </div>
                     </div>
                   </div>
                 </div>
-                <div className="text-start font-semibold"> Choose Reason <span className="text-gray-400 font-base"> (Optional) </span></div>
+                <div className="text-start font-semibold">
+                  {" "}
+                  Choose Reason{" "}
+                  <span className="text-gray-400 font-base"> (Optional) </span>
+                </div>
                 <div className=" sm:flex gap-2 m-4 ">
                   <p className=" border-gray-300 border-[1px] rounded-md shadow-sm cursor-pointer active:bg-black active:text-white">
                     missing product
@@ -447,4 +476,3 @@ function Home() {
 }
 
 export default Home;
-
