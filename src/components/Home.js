@@ -15,6 +15,7 @@ import { VscCheck, VscChromeClose } from "react-icons/vsc";
 import { useDispatch } from "react-redux";
 import { approveStatus, editProduct, editQandP } from "../redux/productSlice";
 
+
 function Home() {
   const [diva, setDiv] = useState(0);
   const products = useSelector((state) => state.product.products);
@@ -25,6 +26,7 @@ function Home() {
   const dispatch = useDispatch();
 
   const handleEditClick = (id) => {
+    if (id.status==="Approved") return
     setEditProductId(id);
     setIsPopupOpen(true);
     setEditQuantity(id.Quantity);
@@ -160,29 +162,29 @@ function Home() {
           </span>
           <span className="text-black font-bold">Order 32457ABC</span>
         </div>
-        <div className="flex space-x-2">
-          <button className="bg-gray-50 text-green-900 px-4 py-2 rounded-full border hover:bg-gray-400 w-full md:w-auto">
+        <div className="flex nvbar space-x-2">
+          <button className="bg-gray-50 text-green-900 px-4 py-2 mx-4 sm:mx-0 rounded-full border hover:bg-gray-400 w-full md:w-auto">
             Back
           </button>
-          <button className="bg-green-800 text-white px-4 py-2 rounded-full hover:bg-green-600 w-full md:w-auto">
+          <button className="bg-green-800 text-white px-4 py-2  mx-4 sm:mx-0 rounded-full hover:bg-green-600 w-full md:w-auto">
             Approve Order
           </button>
         </div>
       </div>
       <div className="border bg-white flex md:shrink-0 gap-4 justify-center p-5 mx-4 mt-4 rounded-md middlebody ">
-        <div className="p-4 border-r border-gray-200 w-full md:w-1/6">
+        <div className="p-4 md:border-r  border-gray-300 w-full md:w-1/6">
           <p>Supplier</p>
           <p className="font-semibold text-black ">{data[0].supplier}</p>
         </div>
-        <div className="p-4 border-r border-gray-200 w-full md:w-1/6">
+        <div className="p-4  md:border-r  border-gray-300 w-full md:w-1/6">
           <p>Shipping Date</p>
           <p className="font-semibold text-black ">{data[0].shipmentDate}</p>
         </div>
-        <div className="p-4 border-r border-gray-200 w-full md:w-1/6">
+        <div className="p-4  md:border-r border-gray-300 w-full md:w-1/6">
           <p>Total</p>
           <p className="font-semibold text-black ">$ {val.toFixed(2)}</p>
         </div>
-        <div className="p-4 border-r border-gray-200 category w-full md:w-1/6">
+        <div className="p-4  md:border-r border-gray-300 category w-full md:w-1/6">
           <p>Category</p>
           <p className="flex justify-center gap-4 my-2">
             <IoFastFoodOutline /> <PiBowlFoodThin /> <MdOutlineFastfood />
@@ -195,11 +197,11 @@ function Home() {
             <MdLocalDrink />
           </p>
         </div>
-        <div className="p-4 border-r border-gray-200 w-full md:w-1/6">
+        <div className="p-4  md:border-r border-gray-300 w-full md:w-1/6">
           <p>Department</p>
           <p className="font-semibold text-black ">{data[0].department}</p>
         </div>
-        <div className="p-4 w-full md:w-1/6">
+        <div className="p-4 w-full  md:w-1/6">
           <p>Status</p>
           <p className="font-semibold text-black ">{data[0].status}</p>
         </div>
@@ -327,7 +329,7 @@ function Home() {
                             ? getStatusStyleIcon(item.status)
                             : {}
                         }
-                        onClick={() => setDiv(item.id)}
+                        onClick={() =>item.status!=="Approved"? setDiv(item.id):setDiv(0)}
                       />{" "}
                       <button onClick={() => handleEditClick(item)}>
                         {" "}
@@ -392,7 +394,7 @@ function Home() {
                           className="mt-1 w-full  border-black border-[1px] rounded-md shadow-sm focus:ring-green-500 focus:border-green-500"
                           type="number"
                           value={editQuantity}
-                          onChange={(e) => setEditQuantity(e.target.value)}
+                          onChange={(e) => setEditQuantity(Number(e.target.value) + 1)}
                         /> 
                          <FaMinusCircle
                           onClick={() => setEditQuantity(editQuantity!==0 ? editQuantity - 1:editQuantity)}
@@ -445,3 +447,4 @@ function Home() {
 }
 
 export default Home;
+
