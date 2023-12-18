@@ -307,8 +307,8 @@ function Home() {
                       <td className="text-center">
                         ${item.Quantity * item.realPrice}
                       </td>
-                      <td className=" place-content-end sm:flex items-end justify-end">
-                        {item.status && (
+                      <td style={{display:"flex",alignItems:"center",justifyContent:"center",height:"82.67px",marginBottom:"25px"}} className="mrg">
+                       <div className="flex" > {item.status && (
                           <p
                             className="rounded-lg p-1 text-start"
                             style={getStatusStyle(item.status)}
@@ -344,7 +344,7 @@ function Home() {
                           {" "}
                           Edit{" "}
                         </button></div>
-                        
+                        </div>
                       </td>
                     </tr>
                   ))}
